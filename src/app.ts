@@ -3,14 +3,19 @@ import path from 'path';
 import cors from 'cors';
 import Youch from 'youch';
 import 'express-async-errors';
+import * as Sentry from '@sentry/node';
 
 import routes from './routes';
+import sentryConfig from './config/sentry';
+
+import './database';
 
 class App {
   server: express.Application
 
   constructor() {
     this.server = express();
+    Sentry.init(sentryConfig);
     this.middlewares();
     this.routes();
     this.exceptionHandler();
