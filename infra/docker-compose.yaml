@@ -19,5 +19,8 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${PASSWORD}
     ports:
-      - "27017-27019:27017-27019"
+      - "27016:27017"
+      - "27018:27018"
+      - "27019:27019"
+
     restart: unless-stopped

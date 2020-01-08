@@ -10,8 +10,12 @@ class User extends Model {
 
   admin: boolean;
 
-  static start(sequelize) {
-    this.init(
+  password_hash: string;
+
+  avatar: string;
+
+  static init(sequelize) {
+    super.init.call(this,
       {
         name: Sequelize.STRING,
         email: Sequelize.STRING,
@@ -20,8 +24,7 @@ class User extends Model {
         admin: Sequelize.BOOLEAN,
       }, {
         sequelize,
-      },
-    );
+      });
 
     this.addHook('beforeSave', async (user: any) => {
       if (user.password) {
@@ -32,8 +35,12 @@ class User extends Model {
     return this;
   }
 
-  checkPassword(password, password_hash) {
-    return bcrypt.compare(password, password_hash);
+  static associate(models) {
+    this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
+  }
+
+  checkPassword(password) {
+    return bcrypt.compare(password, this.password_hash);
   }
 }
 
