@@ -25,7 +25,8 @@ module.exports = {
     "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
     "no-confusing-arrow": ["error", {"allowParens": false}],
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
-    "import/extensions": [2, { ".js": "always", ".ts": "always" }]
+    "import/extensions": [2, { ".js": "always", ".ts": "always" }],
+    "no-confusing-arrow": "off"
   },
   settings: {
     "import/resolver": {
