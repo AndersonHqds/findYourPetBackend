@@ -1,13 +1,33 @@
 import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
+import express from 'express';
 
 import User from '../models/User';
 import File from '../models/File';
 import authConfig from '../../config/auth';
 
+interface Store {
+  email: string;
+  password: string;
+}
+
+interface UserType {
+  id: number;
+  name: string;
+  email: string;
+  avatar: string;
+  admin: boolean;
+};
+
+interface Response {
+  user?: UserType;
+  token?: string;
+  error?: string;
+};
+
 class SessionController {
-  async store(req, res) {
-    const schema = Yup.object().shape({
+  async store(req: express.Request, res: express.Response<Response>) {
+    const schema: Yup.ObjectSchema<Store> = Yup.object().shape({
       email: Yup.string().email().required(),
       password: Yup.string().required(),
     });
@@ -18,6 +38,7 @@ class SessionController {
 
     const { email, password } = req.body;
 
+    
     const user = await User.findOne({
       where: { email },
       include: [
@@ -40,6 +61,7 @@ class SessionController {
     const {
       id, name, avatar, admin,
     } = user;
+
 
     return res.json({
       user: {
